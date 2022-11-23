@@ -29,7 +29,7 @@ export default class App extends React.Component {
     ) {
       alert("Required Field is missing");
     } else {
-      var apiURL = "http://10.44.17.234/test.php";
+      var apiURL = "http://10.44.17.234/register.php";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",

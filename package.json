@@ -11,6 +11,9 @@
   "dependencies": {
     "expo": "~46.0.16",
     "expo-status-bar": "~1.4.0",
+    "jquerry": "^0.0.1-security",
+    "jquery": "^3.6.1",
+    "jquery-ui": "^1.13.2",
     "react": "18.0.0",
     "react-native": "0.69.6"
   },

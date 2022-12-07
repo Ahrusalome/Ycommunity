@@ -19,6 +19,18 @@ export default class Home extends React.Component {
         >
           Register
         </Text>
+        <Text
+          style={styles.textStyle}
+          onPress={() => this.props.navigation.navigate("SeePost")}
+        >
+          See posts
+        </Text>
+        <Text
+          style={styles.textStyle}
+          onPress={() => this.props.navigation.navigate("Post")}
+        >
+          Make a post
+        </Text>
       </View>
     );
   }

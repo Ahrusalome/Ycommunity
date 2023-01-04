@@ -22,7 +22,13 @@ export default class Home extends React.Component {
         </Text>
         <Text
           style={styles.textStyle}
-          onPress={() => this.props.navigation.navigate("Post")}
+          onPress={() => this.props.navigation.navigate("Login")}
+        >
+          Login
+        </Text>
+        <Text
+          style={styles.textStyle}
+          onPress={() => this.props.navigation.navigate("SeePost")}
         >
           Make a Post
         </Text>

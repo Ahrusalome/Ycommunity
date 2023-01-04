@@ -3,35 +3,51 @@ import {
     View,
     TextInput,
     Button,
-    Text
+    Text,
   } from "react-native";
+  import { RefreshControl } from 'react-native';
   import React from "react";
+  import {PHP_IP} from "../config/globalVar.js";
+  
 
 export default class SeePost extends React.Component{
     constructor(props) {
         super(props);
         this.state = {dataReceive: []};
+        this.getAllPosts();
     }
     getAllPosts(){
-        const apiURL = "http://172.31.113.149/Ycommunity-back-edition/getAllPost.php";
+        const apiURL = "http://"+PHP_IP+"/Ycommunity-back-edition/getAllPost.php";
         const headers = {
             Accept: "application/json",
             "Content-Type": "application/json",
         };
-        fetch(apiURL)
+        fetch(apiURL,headers)
         .then((response) => response.json())
         .then((data) => this.setState({dataReceive: data}));
     }
+    deletePost(postID){
+        var data = {
+            postID: postID,
+          };
+        fetch("http://"+PHP_IP+"/Ycommunity-back-edition/deletePost.php",{
+            method: "POST",
+            body: JSON.stringify(data),
+        })
+        this.props.navigation.navigate("Home")
+        this.props.navigation.navigate("SeePost")
+
+    }
     render(){
-        this.getAllPosts()
         return(
             <View style={styles.container}>
             {this.state.dataReceive.map((post)=>{
                 return(
-                    <View style={styles.container}>
+                    <View style={styles.container} key={post.id}>
                         <Text>Username:     {post.username}</Text>
                         <Text>Message:     {post.message}</Text>
                         <Text>Likes:      {post.likes}</Text>
+                        <Button title={"Delete Post"} onPress={()=>this.deletePost(post.id)} />
                     </View>
                 )
             })}</View>

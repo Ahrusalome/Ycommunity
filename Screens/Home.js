@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { Component } from "react";
 
+
 export default class Home extends React.Component {
   render() {
     return (
@@ -21,15 +22,15 @@ export default class Home extends React.Component {
         </Text>
         <Text
           style={styles.textStyle}
-          onPress={() => this.props.navigation.navigate("SeePost")}
+          onPress={() => this.props.navigation.navigate("Post")}
         >
-          See posts
+          Make a Post
         </Text>
         <Text
           style={styles.textStyle}
-          onPress={() => this.props.navigation.navigate("Post")}
+          onPress={() => this.props.navigation.navigate("SeePost")}
         >
-          Make a post
+          SeePost
         </Text>
       </View>
     );

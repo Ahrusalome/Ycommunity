@@ -4,7 +4,11 @@ import React, { Component } from "react";
 export default class Register extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: "", email: "", password: "" };
+    this.state = {
+      username: "",
+      email: "",
+      password: "",
+    };
   }
 
   InsertRecord = () => {
@@ -12,7 +16,6 @@ export default class Register extends React.Component {
     var email = this.state.email;
     var password = this.state.password;
     var passwordConf = this.state.passwordConf;
-
     if (
       username.length == 0 ||
       email.length == 0 ||
@@ -39,7 +42,7 @@ export default class Register extends React.Component {
       })
         .then((response) => response.json())
         .then((response) => {
-          alert(response[0].Message);
+          alert(response[0].State);
         })
         .catch((error) => {
           alert("Error: " + error);
@@ -47,7 +50,16 @@ export default class Register extends React.Component {
     }
   };
 
-  render() {
+  render(
+    IsEmailValid = () => {
+      var email = this.state.email;
+      var emailPattern = /^[a-zA-Z]+\.[a-zA-Z]+@ynov\.com$/;
+      if (emailPattern.test(email)) {
+        return true;
+      }
+      return false;
+    }
+  ) {
     return (
       <View style={styles.container}>
         <TextInput
@@ -58,10 +70,15 @@ export default class Register extends React.Component {
           textContentType={"username"}
         />
         <TextInput
-          placeholder={"email"}
+          placeholder={"email (ex: prenom.nom@ynov.com)"}
           placeholderTextColor={"black"}
-          style={styles.inputText}
+          style={
+            IsEmailValid() == true
+              ? styles.emailInputValid
+              : styles.emailInputInvalid
+          }
           onChangeText={(email) => this.setState({ email })}
+          autoCapitalize="none"
           textContentType={"emailAddress"}
         />
         <TextInput
@@ -78,6 +95,7 @@ export default class Register extends React.Component {
           style={styles.inputText}
           onChangeText={(passwordConf) => this.setState({ passwordConf })}
           textContentType={"newPassword"}
+          autoCapitalize="none"
           secureTextEntry={true}
         />
         <Button title={"Submit"} onPress={this.InsertRecord} />
@@ -97,5 +115,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "black",
     marginTop: 30,
+  },
+  emailInputValid: {
+    borderBottomWidth: 1,
+    borderBottomColor: "black",
+    marginTop: 30,
+    color: "green",
+  },
+  emailInputInvalid: {
+    borderBottomWidth: 1,
+    borderBottomColor: "black",
+    marginTop: 30,
+    color: "red",
   },
 });

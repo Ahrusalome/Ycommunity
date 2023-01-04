@@ -1,13 +1,5 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableWithoutFeedback,
-  TextInput,
-  Button,
-} from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import React, { Component } from "react";
 
 export default class Register extends React.Component {
   constructor(props) {
@@ -29,7 +21,7 @@ export default class Register extends React.Component {
     ) {
       alert("Required Field is missing");
     } else {
-      var apiURL = "http://172.26.153.183/Ycommunity/register.php";
+      var apiURL = "http://172.31.113.149/Ycommunity-back-edition/register.php";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -81,7 +73,7 @@ export default class Register extends React.Component {
           secureTextEntry={true}
         />
         <TextInput
-          placeholder={"passwordConf"}
+          placeholder={"password confirmation"}
           placeholderTextColor={"black"}
           style={styles.inputText}
           onChangeText={(passwordConf) => this.setState({ passwordConf })}

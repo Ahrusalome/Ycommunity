@@ -1,19 +1,13 @@
-import { StatusBar } from "expo-status-bar";
-import { NavigationContainer } from '@react-navigation/native';
+
 import {
   StyleSheet,
-  Text,
   View,
-  TouchableWithoutFeedback,
   TextInput,
   Button,
 } from "react-native";
 import React from "react";
-import { Navigate } from "react-router-dom";
-import {Routes, Route, useNavigate} from 'react-router-dom';
-import Register from "./Register"
 
-class Post extends React.Component {
+export default class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = { username: "", content: "", userID: ""};
@@ -31,7 +25,7 @@ class Post extends React.Component {
       alert("Required Field is missing");
     } else {
       userID = 1;
-      var apiURL = "http://172.25.38.159/Ycommunity-back-edition/post.php";
+      var apiURL = "http://172.31.113.149/Ycommunity-back-edition/post.php";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -87,4 +81,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Post;

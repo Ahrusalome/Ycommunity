@@ -1,62 +1,57 @@
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
-import React, { Component } from "react";
+import { StyleSheet, View, TextInput, Button } from "react-native";
+import React from "react";
 
-export default class Login extends React.Component {
+export default class Post extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: "", password: "" };
+    this.state = { username: "", content: "", userID: "" };
   }
-  LogIn = () => {
+
+  insertPost = () => {
     var username = this.state.username;
-    var password = this.state.password;
-    if (username.length == 0 || password.length == 0) {
+    var content = this.state.content;
+    var userID = this.state.userID;
+
+    if (username.length == 0 || content.length == 0) {
       alert("Required Field is missing");
     } else {
-      var apiURL = "http://10.44.17.234/login.php";
+      userID = 1;
+      var apiURL = "http://10.44.17.234/post.php";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
       };
       var Data = {
         username: username,
-        password: password,
+        content: content,
+        userID: userID,
       };
       fetch(apiURL, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(Data),
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          if (response) {
-            this.props.navigation.navigate("Home");
-          }
-        })
-        .catch((error) => {
-          alert("Error: " + error);
-        });
+      }).catch((error) => {
+        alert("Error: " + error);
+      });
     }
   };
-
   render() {
     return (
       <View style={styles.container}>
         <TextInput
-          placeholder={"username"}
+          placeholder={"username of the writer"}
           placeholderTextColor={"black"}
           style={styles.inputText}
           onChangeText={(username) => this.setState({ username })}
           textContentType={"username"}
         />
         <TextInput
-          placeholder={"password"}
+          placeholder={"Content of the Post"}
           placeholderTextColor={"black"}
           style={styles.inputText}
-          onChangeText={(password) => this.setState({ password })}
-          textContentType={"Password"}
-          secureTextEntry={true}
+          onChangeText={(content) => this.setState({ content })}
         />
-        <Button title={"Submit"} onPress={this.LogIn} />
+        <Button title={"Submit"} onPress={this.insertPost} />
       </View>
     );
   }

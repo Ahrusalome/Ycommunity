@@ -25,6 +25,18 @@ export default class Home extends React.Component {
         >
           Login
         </Text>
+        <Text
+          style={styles.textStyle}
+          onPress={() => this.props.navigation.navigate("Post")}
+        >
+          Post
+        </Text>
+        <Text
+          style={styles.textStyle}
+          onPress={() => this.props.navigation.navigate("SeePost")}
+        >
+          SeePost
+        </Text>
       </View>
     );
   }

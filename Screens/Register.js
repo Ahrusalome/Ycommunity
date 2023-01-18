@@ -24,7 +24,7 @@ export default class Register extends React.Component {
     ) {
       alert("Required Field is missing");
     } else {
-      var apiURL = "http://10.44.17.234/register.php";
+      var apiURL = "http://localhost/register.php";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",

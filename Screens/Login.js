@@ -12,7 +12,7 @@ export default class Login extends React.Component {
     if (username.length == 0 || password.length == 0) {
       alert("Required Field is missing");
     } else {
-      var apiURL = "http://10.44.17.234/login.php";
+      var apiURL = "http://localhost/login.php";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -28,7 +28,9 @@ export default class Login extends React.Component {
       })
         .then((response) => response.json())
         .then((response) => {
-          if (response) {
+          if (response == "false") {
+            alert("Wrong username or password, please retry");
+          } else {
             this.props.navigation.navigate("Home");
           }
         })

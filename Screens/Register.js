@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 import React, { Component } from "react";
+import { PHP_IP } from "../config/globalVar.js";
 
 export default class Register extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ export default class Register extends React.Component {
     ) {
       alert("Required Field is missing");
     } else {
-      var apiURL = "http://localhost/register.php";
+      var apiURL = "http://" + PHP_IP + "/Ycommunity-back-edition/register.php";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -34,7 +35,6 @@ export default class Register extends React.Component {
         email: email,
         password: password,
       };
-
       fetch(apiURL, {
         method: "POST",
         headers: headers,

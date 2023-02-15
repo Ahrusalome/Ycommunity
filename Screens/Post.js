@@ -1,5 +1,6 @@
 import { StyleSheet, View, TextInput, Button } from "react-native";
 import React from "react";
+import { PHP_IP } from "../config/globalVar.js";
 
 export default class Post extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ export default class Post extends React.Component {
       alert("Required Field is missing");
     } else {
       userID = 1;
-      var apiURL = "http://10.44.17.234/post.php";
+      var apiURL = "http://" + PHP_IP + "/Ycommunity-back-edition/post.php";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -34,6 +35,7 @@ export default class Post extends React.Component {
         alert("Error: " + error);
       });
     }
+    this.props.navigation.navigate("SeePost");
   };
   render() {
     return (

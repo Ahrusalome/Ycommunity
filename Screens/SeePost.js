@@ -1,61 +1,49 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableWithoutFeedback,
-  TextInput,
-  Button,
-} from "react-native";
+import { StyleSheet, View, TextInput, Button, Text } from "react-native";
+import { RefreshControl } from "react-native";
 import React from "react";
+import { PHP_IP } from "../config/globalVar.js";
 
-class Post extends React.Component {
+export default class SeePost extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data: [] };
-    this.getPost();
+    this.state = { dataReceive: [] };
+    this.getAllPosts();
   }
-
-  getPost = async () => {
-    const request = await fetch(
-      "http://172.25.39.151/Ycommunity-back-edition/getAllPost.php"
-    );
-    const data = await request.json();
-    this.setState({ data: data });
-  };
-  deletePost = async (postID) => {
-    var Data = {
-      postID: postID,
-    };
-    var headers = {
+  getAllPosts() {
+    const apiURL =
+      "http://" + PHP_IP + "/Ycommunity-back-edition/getAllPost.php";
+    const headers = {
       Accept: "application/json",
       "Content-Type": "application/json",
     };
-    const request = await fetch(
-      "http://172.25.39.151/Ycommunity-back-edition/deletePost.php",
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(Data),
-      }
-    );
-
-    this.setState({
-      data: this.state.data.filter((post) => post.id != postID),
+    fetch(apiURL, headers)
+      .then((response) => response.json())
+      .then((data) => this.setState({ dataReceive: data }));
+  }
+  deletePost(postID) {
+    var data = {
+      postID: postID,
+    };
+    fetch("http://" + PHP_IP + "/Ycommunity-back-edition/deletePost.php", {
+      method: "POST",
+      body: JSON.stringify(data),
     });
-  };
-
+    this.props.navigation.navigate("Home");
+    this.props.navigation.navigate("SeePost");
+  }
   render() {
     return (
       <View style={styles.container}>
-        {this.state.data.map((post) => {
+        {this.state.dataReceive.map((post) => {
           return (
-            <View key={post.id}>
-              <Text>Username {post.username}</Text>
-              <Text>Message {post.message}</Text>
+            <View style={styles.container} key={post.id}>
+              <Text>Username: {post.username}</Text>
+              <Text>Message: {post.message}</Text>
+              <Text>Likes: {post.likes}</Text>
               <Button
+                title={"Delete Post"}
                 onPress={() => this.deletePost(post.id)}
-                title={"Delete post"}
               />
             </View>
           );
@@ -78,5 +66,3 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 });
-
-export default Post;

@@ -32,6 +32,12 @@ export default class Home extends React.Component {
         </Text>
         <Text
           style={styles.textStyle}
+          onPress={() => AsyncStorage.removeItem("userID")}
+        >
+          LogOut
+        </Text>
+        <Text
+          style={styles.textStyle}
           onPress={() => this.props.navigation.navigate("Login")}
         >
           Login

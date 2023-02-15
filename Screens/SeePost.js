@@ -1,13 +1,8 @@
-import {
-    StyleSheet,
-    View,
-    TextInput,
-    Button,
-    Text,
-  } from "react-native";
-  import { RefreshControl } from 'react-native';
-  import React from "react";
-  import {PHP_IP} from "../config/globalVar.js";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View, TextInput, Button, Text } from "react-native";
+import { RefreshControl } from "react-native";
+import React from "react";
+import { PHP_IP } from "../config/globalVar.js";
 
   
 
@@ -59,15 +54,15 @@ export default class SeePost extends React.Component{
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#fff",
-      padding: 20,
-      marginTop: 10,
-    },
-    inputText: {
-      borderBottomWidth: 1,
-      borderBottomColor: "black",
-      marginTop: 30,
-    },
-  });
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 20,
+    marginTop: 10,
+  },
+  inputText: {
+    borderBottomWidth: 1,
+    borderBottomColor: "black",
+    marginTop: 30,
+  },
+});

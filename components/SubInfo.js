@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Image, Text } from "react-native";
 
-import { SIZES, FONTS, COLORS, SHADOWS, assets } from "../constants";
+import { SIZES, FONTS, COLORS, assets } from "../constants";
 
-export const NFTTitle = ({ title, subTitle, titleSize, subTitleSize }) => {
+export const NFTTitle = ({ titleSize, subTitleSize }) => {
   return (
     <View>
       <Text
@@ -13,7 +13,7 @@ export const NFTTitle = ({ title, subTitle, titleSize, subTitleSize }) => {
           color: COLORS.primary,
         }}
       >
-        {title}
+        Titre
       </Text>
       <Text
         style={{
@@ -22,28 +22,7 @@ export const NFTTitle = ({ title, subTitle, titleSize, subTitleSize }) => {
           color: COLORS.primary,
         }}
       >
-        by {subTitle}
-      </Text>
-    </View>
-  );
-};
-
-export const EthPrice = ({ price }) => {
-  return (
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
-      <Image
-        source={assets.eth}
-        resizeMode="contain"
-        style={{ width: 20, height: 20, marginRight: 2 }}
-      />
-      <Text
-        style={{
-          fontFamily: FONTS.medium,
-          fontSize: SIZES.font,
-          color: COLORS.primary,
-        }}
-      >
-        {price}
+        Sous-titre
       </Text>
     </View>
   );
@@ -66,48 +45,8 @@ const ImageCmp = ({ imgUrl, index }) => {
 export const People = () => {
   return (
     <View style={{ flexDirection: "row" }}>
-      {[assets.person02, assets.person03, assets.person04].map(
-        (imgUrl, index) => (
-          <ImageCmp imgUrl={imgUrl} index={index} key={`People-${index}`} />
-        )
-      )}
-    </View>
-  );
-};
-
-export const EndDate = () => {
-  return (
-    <View
-      style={{
-        paddingHorizontal: SIZES.font,
-        paddingVertical: SIZES.base,
-        backgroundColor: COLORS.white,
-        borderRadius: SIZES.font,
-        justifyContent: "center",
-        alignItems: "center",
-        ...SHADOWS.light,
-        elevation: 1,
-        maxWidth: "50%",
-      }}
-    >
-      <Text
-        style={{
-          fontFamily: FONTS.regular,
-          fontSize: SIZES.small,
-          color: COLORS.primary,
-        }}
-      >
-        Ending in
-      </Text>
-      <Text
-        style={{
-          fontFamily: FONTS.semiBold,
-          fontSize: SIZES.medium,
-          color: COLORS.primary,
-        }}
-      >
-        12h 30m
-      </Text>
+      {/* afficher la chef de projet */}
+      <ImageCmp imgUrl={assets.avatar1} index={0} />
     </View>
   );
 };
@@ -124,7 +63,6 @@ export const SubInfo = () => {
       }}
     >
       <People />
-      <EndDate />
     </View>
   );
 };

@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
 
-import { EthPrice } from "./SubInfo";
 import { COLORS, SIZES, FONTS } from "../constants";
 
 const DetailsBid = ({ bid }) => {
@@ -15,7 +14,6 @@ const DetailsBid = ({ bid }) => {
         marginVertical: SIZES.base,
         paddingHorizontal: SIZES.base,
       }}
-      key={bid.id}
     >
       <Image
         source={bid.image}
@@ -51,7 +49,6 @@ const DetailsBid = ({ bid }) => {
         </Text>
       </View>
 
-      <EthPrice price={bid.price} />
     </View>
   );
 };

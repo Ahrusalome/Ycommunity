@@ -8,7 +8,6 @@ import {
 import React from "react";
 import {PHP_IP} from "../config/globalVar.js";
 
-
 export default class Post extends React.Component {
   constructor(props) {
     super(props);
@@ -48,7 +47,12 @@ export default class Post extends React.Component {
     }
     this.props.navigation.navigate("SeePost")
   };
+  
+  async searchPost(){
+
+  }
   render() {
+    this.getAllCategories()
     return (
       <View style={styles.container}>
         <TextInput

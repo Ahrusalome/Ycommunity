@@ -18,7 +18,7 @@ export default class SeePost extends React.Component{
         this.state = {dataReceive: []};
         this.getAllPosts();
     }
-    getAllPosts(){
+    async getAllPosts(){
         const apiURL = "http://"+PHP_IP+"/Ycommunity-back-edition/getAllPost.php";
         const headers = {
             Accept: "application/json",
@@ -28,7 +28,7 @@ export default class SeePost extends React.Component{
         .then((response) => response.json())
         .then((data) => this.setState({dataReceive: data}));
     }
-    deletePost(postID){
+    async deletePost(postID){
         var data = {
             postID: postID,
           };

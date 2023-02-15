@@ -5,7 +5,7 @@ import {PHP_IP} from "../config/globalVar.js";
 export default class Register extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: "", email: "", password: "" };
+    this.state = { username: "", email: "", password: "",passwordConf: ""};
   }
 
   InsertRecord = () => {
@@ -32,7 +32,6 @@ export default class Register extends React.Component {
         email: email,
         password: password,
       };
-
       fetch(apiURL, {
         method: "POST",
         headers: headers,

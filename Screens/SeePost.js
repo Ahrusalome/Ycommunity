@@ -8,9 +8,11 @@ import {
   import { RefreshControl } from 'react-native';
   import React from "react";
   import {PHP_IP} from "../config/globalVar.js";
+
   
 
 export default class SeePost extends React.Component{
+    
     constructor(props) {
         super(props);
         this.state = {dataReceive: []};

@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { Component } from "react";
+import { AsyncStorage } from "react-native";
 
 export default class Home extends React.Component {
   render() {
@@ -18,6 +19,16 @@ export default class Home extends React.Component {
           onPress={() => this.props.navigation.navigate("Register")}
         >
           Register
+        </Text>
+        <Text
+          style={styles.textStyle}
+          onPress={() =>
+            AsyncStorage.getItem("userID", (err, result) => {
+              alert(result);
+            })
+          }
+        >
+          Test
         </Text>
         <Text
           style={styles.textStyle}

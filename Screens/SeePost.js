@@ -10,7 +10,7 @@ export default class SeePost extends React.Component{
     
     constructor(props) {
         super(props);
-        this.state = {dataReceive: []};
+        this.state = {dataReceive: [],allCategories:[]};
         this.getAllPosts();
     }
     async getAllPosts(){
@@ -23,6 +23,7 @@ export default class SeePost extends React.Component{
         .then((response) => response.json())
         .then((data) => this.setState({dataReceive: data}));
     }
+    
     async deletePost(postID){
         var data = {
             postID: postID,
@@ -33,8 +34,21 @@ export default class SeePost extends React.Component{
         })
         this.props.navigation.navigate("Home")
         this.props.navigation.navigate("SeePost")
-
     }
+    getAllCategories = async()=>{
+        const apiURL = "http://"+PHP_IP+"/Ycommunity-back-edition/getAllCategory.php";
+        const headers = {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        };
+        const req = await fetch(apiURL,headers)
+        const data = await req.json()
+        this.setState({allCategories: data});
+    }
+    async componentDidMount()
+  {
+    this.getAllCategories();
+  }
     render(){
         return(
             <View style={styles.container}>

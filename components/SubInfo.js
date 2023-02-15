@@ -3,7 +3,7 @@ import { View, Image, Text } from "react-native";
 
 import { SIZES, FONTS, COLORS, assets } from "../constants";
 
-export const NFTTitle = ({ titleSize, subTitleSize }) => {
+export const Title = ({ titleSize, subTitleSize }) => {
   return (
     <View>
       <Text
@@ -46,7 +46,7 @@ export const People = () => {
   return (
     <View style={{ flexDirection: "row" }}>
       {/* afficher la chef de projet */}
-      <ImageCmp imgUrl={assets.avatar1} index={0} />
+      <ImageCmp imgUrl={assets.person01} index={0} />
     </View>
   );
 };

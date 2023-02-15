@@ -68,4 +68,4 @@ const styles = StyleSheet.create({
       borderBottomColor: "black",
       marginTop: 30,
     },
-  });
+});

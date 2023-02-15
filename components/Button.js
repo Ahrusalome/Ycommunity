@@ -48,7 +48,7 @@ export const RectButton = ({ minWidth, fontSize, handlePress, ...props }) => {
           textAlign: "center",
         }}
       >
-        Wesh mon gars
+        Découvrir
       </Text>
     </TouchableOpacity>
   );

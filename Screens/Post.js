@@ -13,11 +13,8 @@ export default class Post extends React.Component {
   }
 
   insertPost = () => {
-    var content = this.state.content;
-    var userID = this.state.userID;
-
     if (!this.state.categorySelected || !this.state.content.length) {
-      alert("Required Field is missing");
+      alert("Required Fields are missing");
     } else {
       var apiURL = "http://" + PHP_IP + "/Ycommunity-back-edition/post.php";
       var headers = {
@@ -25,8 +22,9 @@ export default class Post extends React.Component {
         "Content-Type": "application/json",
       };
       var Data = {
-        "content": content,
-        "userID": userID,
+        "content": this.state.content,
+        "userID": this.state.userID,
+        "categoryID": this.state.categorySelected,
       };
       fetch(apiURL, {
         method: "POST",

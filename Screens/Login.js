@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 import React, { Component } from "react";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage } from "@react-native-async-storage/async-storage";
 import { PHP_IP } from "../config/globalVar.js";
 
 export default class Login extends React.Component {

@@ -1,7 +1,7 @@
 import { StyleSheet, View, TextInput, Button } from "react-native";
 import React from "react";
 import { PHP_IP } from "../config/globalVar.js";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage } from "@react-native-async-storage/async-storage";
 import SelectDropdown from 'react-native-select-dropdown'
 
 

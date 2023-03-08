@@ -68,21 +68,28 @@ export default class NavBar extends React.Component {
                       <this.Tab.Screen name="Clubs" component={Login} 
                           options={{ 
                               tabBarIcon: ({ color, size }) => (
-                                  <MaterialCommunityIcons name="home" color={color} size={26} />
+                                  <MaterialCommunityIcons name="chat" color={color} size={26} />
                               ),
                           }}
                       />
                       <this.Tab.Screen name="Bde" component={SeePost} 
                           options={{ 
                               tabBarIcon: ({ color, size }) => (
-                                  <MaterialCommunityIcons name="home" color={color} size={26} />
+                                  <MaterialCommunityIcons name="account-multiple" color={color} size={26} />
                               ),
                           }}
                       />
                       <this.Tab.Screen name="Projects" component={this.Projects} 
                           options={{ 
                               tabBarIcon: ({ color, size }) => (
-                                  <MaterialCommunityIcons name="home" color={color} size={26} />
+                                  <MaterialCommunityIcons name="briefcase" color={color} size={26} />
+                              ),
+                          }}
+                      />
+                      <this.Tab.Screen name="School" component={this.Projects} 
+                          options={{ 
+                              tabBarIcon: ({ color, size }) => (
+                                  <MaterialCommunityIcons name="school" color={color} size={26} />
                               ),
                           }}
                       />

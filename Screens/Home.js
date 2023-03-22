@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { Component } from "react";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage } from "@react-native-async-storage/async-storage";
+import NavBar from "../Components/NavBar.js";
 
 export default class Home extends React.Component {
   render() {
@@ -54,6 +55,13 @@ export default class Home extends React.Component {
         >
           SeePost
         </Text>
+        <Text
+          style={styles.textStyle}
+          onPress={() => this.props.navigation.navigate("NavBar")}
+        >
+          NavBar
+        </Text>
+       < NavBar />
       </View>
     );
 

@@ -1,45 +1,28 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableWithoutFeedback,
-  TextInput,
-  Button,
-} from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import React, { Component } from "react";
+import { AsyncStorage } from "@react-native-async-storage/async-storage";
+import { PHP_IP } from "../config/globalVar.js";
 
-export default class Register extends React.Component {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: "", email: "", password: "" };
+    this.state = { username: "", password: "" };
   }
-
-  InsertRecord = () => {
+  LogIn = () => {
     var username = this.state.username;
-    var email = this.state.email;
     var password = this.state.password;
-    var passwordConf = this.state.passwordConf;
-
-    if (
-      username.length == 0 ||
-      email.length == 0 ||
-      password.length == 0 ||
-      password != passwordConf
-    ) {
+    if (username.length == 0 || password.length == 0) {
       alert("Required Field is missing");
     } else {
-      var apiURL = "http://172.26.153.183/Ycommunity/register.php";
+      var apiURL = "http://"+PHP_IP+"/Ycommunity-back-edition/login.php";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
       };
       var Data = {
         username: username,
-        email: email,
         password: password,
       };
-
       fetch(apiURL, {
         method: "POST",
         headers: headers,
@@ -47,7 +30,13 @@ export default class Register extends React.Component {
       })
         .then((response) => response.json())
         .then((response) => {
-          alert(response[0].Message);
+          if (response == "false") {
+            alert("Wrong username or password, please retry");
+          } else {
+            console.log(JSON.stringify(response))
+            AsyncStorage.setItem("userID", JSON.stringify(response.id));
+            this.props.navigation.navigate("Home");
+          }
         })
         .catch((error) => {
           alert("Error: " + error);
@@ -66,29 +55,14 @@ export default class Register extends React.Component {
           textContentType={"username"}
         />
         <TextInput
-          placeholder={"email"}
-          placeholderTextColor={"black"}
-          style={styles.inputText}
-          onChangeText={(email) => this.setState({ email })}
-          textContentType={"emailAddress"}
-        />
-        <TextInput
           placeholder={"password"}
           placeholderTextColor={"black"}
           style={styles.inputText}
           onChangeText={(password) => this.setState({ password })}
-          textContentType={"newPassword"}
+          textContentType={"Password"}
           secureTextEntry={true}
         />
-        <TextInput
-          placeholder={"passwordConf"}
-          placeholderTextColor={"black"}
-          style={styles.inputText}
-          onChangeText={(passwordConf) => this.setState({ passwordConf })}
-          textContentType={"newPassword"}
-          secureTextEntry={true}
-        />
-        <Button title={"Submit"} onPress={this.InsertRecord} />
+        <Button title={"Submit"} onPress={this.LogIn} />
       </View>
     );
   }

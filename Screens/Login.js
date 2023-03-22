@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 import React, { Component } from "react";
+import { AsyncStorage } from "react-native";
+import { PHP_IP } from "../config/globalVar.js";
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -12,7 +14,7 @@ export default class Login extends React.Component {
     if (username.length == 0 || password.length == 0) {
       alert("Required Field is missing");
     } else {
-      var apiURL = "http://10.44.17.234/login.php";
+      var apiURL = "http://" + PHP_IP + "/login.php";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -28,8 +30,10 @@ export default class Login extends React.Component {
       })
         .then((response) => response.json())
         .then((response) => {
-          if (response == "true") {
-            alert("you are now connected, please don't be racist");
+          if (response == "false") {
+            alert("Wrong username or password, please retry");
+          } else {
+            AsyncStorage.setItem("userID", JSON.stringify(response.id));
             this.props.navigation.navigate("Home");
           }
         })

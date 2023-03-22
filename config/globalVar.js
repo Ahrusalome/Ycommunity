@@ -1,4 +1,2 @@
-const PHP_IP = '172.31.113.149'
-export{
-    PHP_IP
-}
+const PHP_IP = "10.44.17.72";
+export { PHP_IP };

@@ -14,12 +14,13 @@ export default class Login extends React.Component {
     if (username.length == 0 || password.length == 0) {
       alert("Required Field is missing");
     } else {
-      var apiURL = "http://" + PHP_IP + "/login.php";
+      var apiURL = "http://" + PHP_IP + "/user";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
       };
       var Data = {
+        islogin: true,
         username: username,
         password: password,
       };

@@ -17,7 +17,7 @@ export default class Post extends React.Component {
       alert("Required Field is missing");
     } else {
       userID = 1;
-      var apiURL = "http://" + PHP_IP + "/Ycommunity-back-edition/post.php";
+      var apiURL = "http://" + PHP_IP + "/post";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",

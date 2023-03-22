@@ -25,12 +25,13 @@ export default class Register extends React.Component {
     ) {
       alert("Required Field is missing");
     } else {
-      var apiURL = "http://" + PHP_IP + "/Ycommunity-back-edition/register.php";
+      var apiURL = "http://" + PHP_IP + "/user";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
       };
       var Data = {
+        islogin: false,
         username: username,
         email: email,
         password: password,
@@ -53,7 +54,7 @@ export default class Register extends React.Component {
   render(
     IsEmailValid = () => {
       var email = this.state.email;
-      var emailPattern = /^[a-zA-Z]+\.[a-zA-Z]+@ynov\.com$/;
+      var emailPattern = /^[a-zA-Z]+\.[a-zA-Z1-9]+@ynov\.com$/;
       if (emailPattern.test(email)) {
         return true;
       }

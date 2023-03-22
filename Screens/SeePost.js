@@ -11,8 +11,7 @@ export default class SeePost extends React.Component {
     this.getAllPosts();
   }
   getAllPosts() {
-    const apiURL =
-      "http://" + PHP_IP + "/Ycommunity-back-edition/getAllPost.php";
+    const apiURL = "http://" + PHP_IP + "/post";
     const headers = {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -25,8 +24,8 @@ export default class SeePost extends React.Component {
     var data = {
       postID: postID,
     };
-    fetch("http://" + PHP_IP + "/Ycommunity-back-edition/deletePost.php", {
-      method: "POST",
+    fetch("http://" + PHP_IP + "/post", {
+      method: "DELETE",
       body: JSON.stringify(data),
     });
     this.props.navigation.navigate("Home");

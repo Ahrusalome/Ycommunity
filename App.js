@@ -6,8 +6,7 @@ import Clubs from "./NavBar/clubs";
 import Projects from "./NavBar/project";
 import Messaging from "./NavBar/messaging";
 
-import { View, Text } from "react-native";
-import { createmMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import  { createmMaterialBottomTabNavigator } from '@react-navigation/material-botom-tabs';
 import { NavigationContainer } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 

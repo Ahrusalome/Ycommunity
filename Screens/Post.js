@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput, Button } from "react-native";
+import { StyleSheet, View, TextInput, Button,Text } from "react-native";
 import React from "react";
 import { PHP_IP } from "../config/globalVar.js";
 import { AsyncStorage } from "@react-native-async-storage/async-storage";
@@ -16,7 +16,7 @@ export default class Post extends React.Component {
     if (!this.state.categorySelected || !this.state.content.length) {
       alert("Required Fields are missing");
     } else {
-      var apiURL = "http://" + PHP_IP + "/Ycommunity-back-edition/post.php";
+      var apiURL = "http://" + PHP_IP + "/Ycommunity-back-edition/request/post.php";
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -37,12 +37,19 @@ export default class Post extends React.Component {
     this.props.navigation.navigate("SeePost");
   };
   getAllCategories = async()=>{
-    const apiURL = "http://"+PHP_IP+"/Ycommunity-back-edition/getAllCategory.php";
+    const apiURL = "http://"+PHP_IP+"/Ycommunity-back-edition/request/category.php";
     const headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
     };
-    const req = await fetch(apiURL,headers)
+    try{
+      const req = await fetch(apiURL,{
+        method: "GET",
+        headers})
+    }catch(e){
+      console.log(e)
+    }
+      console.log(req)
     const data = await req.json()
     this.setState({categories: data});
   }
@@ -51,12 +58,15 @@ export default class Post extends React.Component {
   }
   async componentDidMount()
   {
-    this.getAllCategories();
-    this.setState({userID: await AsyncStorage.getItem("userID")})
+    await this.getAllCategories();
+    this.setState({userID: 1})
+    // this.setState({userID: await AsyncStorage.getItem("userID")})
+
   }
   render() {
     return (
       <View style={styles.container}>
+        <Text>{this.state.categories.map((category)=>category)}</Text>
         <SelectDropdown
           data={this.state.categories.map((category)=>category.name)}
           onSelect={(selectedItem,index)=>{

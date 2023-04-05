@@ -6,7 +6,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Post from "../Screens/Post";
-import Home from "../Screens/Home.js";
 import Login from "../Screens/Login.js";
 import SeePost from "../Screens/SeePost.js";
 
@@ -48,7 +47,7 @@ export default class NavBar extends React.Component {
     Projects = () => {
         return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>this page is Home</Text>
+            <Text>this page is Projects Page</Text>
         </View>
         );
     }

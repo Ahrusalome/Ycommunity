@@ -3,6 +3,7 @@ import React from "react";
 import { PHP_IP } from "../config/globalVar.js";
 import { AsyncStorage } from "@react-native-async-storage/async-storage";
 import SelectDropdown from 'react-native-select-dropdown'
+import {axios} from 'axios';
 
 
 
@@ -58,6 +59,13 @@ export default class Post extends React.Component {
   }
   async componentDidMount()
   {
+  fetch('http://'+PHP_IP+'/post')
+  .then(response => response.json())
+  .then((data) => {
+    if(data==null)console.log("null")
+    else console.log("not null")
+  })
+  .catch(error => console.error(error));
     await this.getAllCategories();
     this.setState({userID: 1})
     // this.setState({userID: await AsyncStorage.getItem("userID")})

@@ -3,6 +3,7 @@ import { StyleSheet, View, TextInput, Button, Text } from "react-native";
 import { RefreshControl } from "react-native";
 import React from "react";
 import { PHP_IP } from "../config/globalVar.js";
+import axios from "axios";
 
   
 
@@ -14,53 +15,38 @@ export default class SeePost extends React.Component{
         this.getAllPosts();
     }
     async getAllPosts(){
-        const apiURL = "http://"+PHP_IP+"/Ycommunity-back-edition/getAllPost.php";
+        const apiURL = "http://"+PHP_IP+"/post";
         const headers = {
             Accept: "application/json",
             "Content-Type": "application/json",
         };
-        fetch(apiURL,headers)
-        .then((response) => response.json())
-        .then((data) => this.setState({dataReceive: data}));
+        const req = await axios.get(apiURL);
+        const res = await req.data
+        this.setState({dataReceive: res})
     }
     
     async deletePost(postID){
         var data = {
             postID: postID,
           };
-        fetch("http://"+PHP_IP+"/Ycommunity-back-edition/deletePost.php",{
-            method: "POST",
-            body: JSON.stringify(data),
-        })
+          const req = await axios.delete("http://"+PHP_IP+"/post",data)
+          const res = await req.data
+          console.log(res)
         this.props.navigation.navigate("Home")
         this.props.navigation.navigate("SeePost")
     }
     getAllCategories = async()=>{
-        const apiURL = "http://"+PHP_IP+"/Ycommunity-back-edition/getAllCategory.php";
-        const headers = {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        };
-        const req = await fetch(apiURL,headers)
-        const data = await req.json()
-        this.setState({allCategories: data});
+        const apiURL = "http://"+PHP_IP+"/category";
+        const req = await axios.get(apiURL);
+        const res = await req.data
+        this.setState({allCategories: res});
     }
     getPostCategory= async(categoryID)=>{
-        const apiURL = "http://"+PHP_IP+"/Ycommunity-back-edition/getAllPost.php";
-        const headers = {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        };
-        const Data = {
-            "categoryID":categoryID,
-        };
-        const req = await fetch(apiURL, {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(Data),
-        })
-        const data = await req.json()
-        this.setState({dataReceive: data})
+        const apiURL = "http://"+PHP_IP+"/post/category/" + categoryID;
+        const req = await axios.get(apiURL);
+        const res = await req.data;
+
+        this.setState({dataReceive: res})
     }
     async componentDidMount()
   {

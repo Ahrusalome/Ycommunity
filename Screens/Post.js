@@ -3,6 +3,7 @@ import React from "react";
 import { PHP_IP } from "../config/globalVar.js";
 import { AsyncStorage } from "@react-native-async-storage/async-storage";
 import SelectDropdown from 'react-native-select-dropdown'
+import axios from 'axios'
 
 
 
@@ -12,45 +13,26 @@ export default class Post extends React.Component {
     this.state = { content: "",categories:[], categorySelected: "",userID: ""};
   }
 
-  insertPost = () => {
+  insertPost = async() => {
     if (!this.state.categorySelected || !this.state.content.length) {
       alert("Required Fields are missing");
     } else {
-      var apiURL = "http://" + PHP_IP + "/Ycommunity-back-edition/request/post.php";
-      var headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      };
-      var Data = {
+      const apiURL = "http://" + PHP_IP + "/post";
+      const Data = {
         "content": this.state.content,
         "userID": this.state.userID,
         "categoryID": this.state.categorySelected,
       };
-      fetch(apiURL, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(Data),
-      }).catch((error) => {
-        alert("Error: " + error);
-      });
+      const req = await axios.post(apiURL,Data);
+      const res = await req.data
+      console.log(res)
+      this.props.navigation.navigate("SeePost");
     }
-    this.props.navigation.navigate("SeePost");
   };
   getAllCategories = async()=>{
-    const apiURL = "http://"+PHP_IP+"/Ycommunity-back-edition/request/category.php";
-    const headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-    };
-    try{
-      const req = await fetch(apiURL,{
-        method: "GET",
-        headers})
-    }catch(e){
-      console.log(e)
-    }
-      console.log(req)
-    const data = await req.json()
+    const apiURL = "http://"+PHP_IP+"/category";
+    const req = await axios.get("http://"+PHP_IP+"/category")
+    const data = await req.data
     this.setState({categories: data});
   }
   async searchPost(){
@@ -66,7 +48,6 @@ export default class Post extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>{this.state.categories.map((category)=>category)}</Text>
         <SelectDropdown
           data={this.state.categories.map((category)=>category.name)}
           onSelect={(selectedItem,index)=>{

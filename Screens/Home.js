@@ -23,18 +23,8 @@ export default class Home extends React.Component {
         </Text>
         <Text
           style={styles.textStyle}
-          onPress={() =>
-            AsyncStorage.getItem("userID", (err, result) => {
-              alert(result);
-            })
-          }
-        >
-          Test
-        </Text>
-        <Text
-          style={styles.textStyle}
           onPress={() => AsyncStorage.removeItem("userID")}
-        >
+        > 
           LogOut
         </Text>
         <Text

@@ -6,7 +6,9 @@ import Home from "../Screens/Home.js";
 import Login from "../Screens/Login.js";
 import Post from "../Screens/Post.js";
 import SeePost from "../Screens/SeePost.js";
+import Comment from "../Screens/Comment.js";
 import NavBar from "../Components/NavBar.js";
+import ProfilPost from "../Screens/ProfilPost.js";
 
 export default class Stack extends React.Component {
   render() {
@@ -21,6 +23,8 @@ const myStack = createStackNavigator(
     Post: Post,
     SeePost: SeePost,
     NavBar:NavBar,
+    Comment:Comment,
+    ProfilPost:ProfilPost,
   },
   {
     initialRouteName: "Home",

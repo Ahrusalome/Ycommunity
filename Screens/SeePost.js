@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, TextInput, Button, Text } from "react-native";
+import { StyleSheet, View, TextInput, Button, Text,TouchableOpacity } from "react-native";
 import React from "react";
 import { PHP_IP } from "../config/globalVar.js";
 import axios from "axios";
@@ -23,12 +23,17 @@ export default class SeePost extends React.Component {
     this.props.navigation.navigate("Home");
     this.props.navigation.navigate("SeePost");
   }
+  async goToComments(idPost){
+    this.props.navigation.navigate("ProfilPost",{
+      idPost: idPost
+    })
+  }
   render() {
     return (
       <View style={styles.container}>
         {this.state.dataReceive.map((post) => {
           return (
-            <View style={styles.container} key={post.id}>
+            <TouchableOpacity  style={styles.container} key={post.id} onPress={()=>this.goToComments(post.id)}>
               <Text>Username: {post.username}</Text>
               <Text>Message: {post.message}</Text>
               <Text>Likes: {post.likes}</Text>
@@ -36,7 +41,7 @@ export default class SeePost extends React.Component {
                 title={"Delete Post"}
                 onPress={() => this.deletePost(post.id)}
               />
-            </View>
+            </TouchableOpacity >
           );
         })}
       </View>

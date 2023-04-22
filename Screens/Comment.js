@@ -10,18 +10,18 @@ import axios from 'axios'
 export default class Post extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { content: "",categories:[], categorySelected: "",userID: ""};
+    this.state = { content: "",userID: ""};
   }
 
-  insertPost = async() => {
-    if (!this.state.categorySelected || !this.state.content.length) {
+  createComment = async() => {
+    if (!this.state.content.length) {
       alert("Required Fields are missing");
     } else {
-      const apiURL = "http://" + PHP_IP + "/post";
+      const apiURL = "http://" + PHP_IP + "/comment";
       const Data = {
         "content": this.state.content,
-        "userID": this.state.userID,
-        "categoryID": this.state.categorySelected,
+        "authorID": this.state.userID,
+        "postID": 16,
       };
       const req = await axios.post(apiURL,Data);
       const res = await req.data
@@ -29,18 +29,11 @@ export default class Post extends React.Component {
       this.props.navigation.navigate("SeePost");
     }
   };
-  getAllCategories = async()=>{
-    const apiURL = "http://"+PHP_IP+"/category";
-    const req = await axios.get("http://"+PHP_IP+"/category")
-    const data = await req.data
-    this.setState({categories: data});
-  }
   async searchPost(){
 
   }
   async componentDidMount()
   {
-    await this.getAllCategories();
     this.setState({userID: 1})
     // this.setState({userID: await AsyncStorage.getItem("userID")})
 
@@ -48,20 +41,13 @@ export default class Post extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <SelectDropdown
-          data={this.state.categories.map((category)=>category.name)}
-          onSelect={(selectedItem,index)=>{
-            this.setState({categorySelected: this.state.categories[index].id})
-          }}
-        >
-        </SelectDropdown>
         <TextInput
           placeholder={"Content of the Post"}
           placeholderTextColor={"black"}
           style={styles.inputText}
           onChangeText={(content) => this.setState({ content })}
         />
-        <Button title={"Submit"} onPress={this.insertPost} />
+        <Button title={"Submit"} onPress={this.createComment} />
       </View>
     );
   }

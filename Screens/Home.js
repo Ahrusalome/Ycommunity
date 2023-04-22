@@ -51,6 +51,12 @@ export default class Home extends React.Component {
         >
           NavBar
         </Text>
+        <Text
+          style={styles.textStyle}
+          onPress={() => this.props.navigation.navigate("Comment")}
+        >
+          Comment
+        </Text>
        < NavBar />
       </View>
     );

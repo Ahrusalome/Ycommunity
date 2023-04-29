@@ -8,59 +8,66 @@ import { useRoute } from '@react-navigation/native';
 
 
 
-
 export default class Post extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { postID: "", userID: "",content:"",postInfo:[],commentPost:[]};
-    this.setState({postID: this.props.navigation.state.params.postID})
-    this.setState({userID: 1})
-    this.getPostInfo();
+    this.state = {postID:"", userID: "",content:"",postInfo:[],commentPost:[]};
   }
-    createComment = async() => {
-        if (!this.state.content.length) {
-        alert("Required Fields are missing");
-        } else {
-        const apiURL = "http://" + PHP_IP + "/comment";
-        const Data = {
-            "content": this.state.content,
-            "authorID": this.state.userID,
-            "postID": this.state.postID,
-        };
-        const req = await axios.post(apiURL,Data);
-        const res = await req.data
-        }
-        
-    };
+  createComment = async() => {
+    if (!this.state.content.length) {
+      alert("Required Fields are missing");
+    } else {
+      const apiURL = "http://" + PHP_IP + "/comment";
+      const Data = {
+        "content": this.state.content,
+        "authorID": this.state.userID,
+        "postID": this.props.navigation.state.params.postID,
+      };
+      const req = await axios.post(apiURL,Data);
+      const res = await req.data
+    }
+  };
     getPostInfo = async()=>{
       // this func throw before getting the ID of post TO WATCH 
-      console.log("http://"+PHP_IP+"/post/"+this.state.postID)
         const req = await axios.get("http://"+PHP_IP+"/post/"+this.state.postID)
         const res = await req.data
         this.setState({postInfo: res})
     }
     getComment = async()=>{
-        const req = await axios.get("http://"+PHP_IP+"/comment/post/"+this.state.postID)
-        const res = await req.data
-        this.setState({commentPost: res})
+      const req = await axios.get("http://"+PHP_IP+"/comment/post/"+this.state.postID)
+      const res = await req.data
+      this.setState({commentPost: res})
+    }
+    async componentDidMount(){
+      this.setState({postID: await this.props.navigation.state.params.postID})
+      await this.getPostInfo();
+      await this.getComment();
+      this.setState({userID: 1})
     }
   render() {
-    
     return (
       <View style={styles.container}>
         <View style={styles.container}>
         {this.state.postInfo.map((post) => {
           return (
-            <View  style={styles.container} key={post.id} onPress={()=>this.goToComments(post.id)}>
+            <View  style={styles.container} key={post.id}>
               <Text>Username: {post.username}</Text>
               <Text>Message: {post.message}</Text>
               <Text>Likes: {post.likes}</Text>
-              <Button
-                title={"Delete Post"}
-                onPress={() => this.deletePost(post.id)}
-                />
             </View >
             );
+            })}
+            {this.state.commentPost.map((comment)=>{
+              return (
+                <View  key={comment.id}>
+                  <Text>From: {comment.username}</Text>
+                  <Text>{comment.message}</Text>
+
+                </View>
+              )
+
+
+
             })}
         </View>
         <TextInput

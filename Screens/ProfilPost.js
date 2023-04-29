@@ -13,6 +13,9 @@ export default class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = { postID: "", userID: "",content:"",postInfo:[],commentPost:[]};
+    this.setState({postID: this.props.navigation.state.params.postID})
+    this.setState({userID: 1})
+    this.getPostInfo();
   }
     createComment = async() => {
         if (!this.state.content.length) {
@@ -30,9 +33,10 @@ export default class Post extends React.Component {
         
     };
     getPostInfo = async()=>{
+      // this func throw before getting the ID of post TO WATCH 
+      console.log("http://"+PHP_IP+"/post/"+this.state.postID)
         const req = await axios.get("http://"+PHP_IP+"/post/"+this.state.postID)
         const res = await req.data
-        console.log(req)
         this.setState({postInfo: res})
     }
     getComment = async()=>{
@@ -40,15 +44,8 @@ export default class Post extends React.Component {
         const res = await req.data
         this.setState({commentPost: res})
     }
-  async componentDidMount()
-  {
-    this.setState({postID: this.props.navigation.state.params.idPost})
-    this.setState({userID: 1})
-    await this.getPostInfo();
-    // this.setState({userID: await AsyncStorage.getItem("userID")})
-
-  }
   render() {
+    
     return (
       <View style={styles.container}>
         <View style={styles.container}>

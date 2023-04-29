@@ -3,6 +3,7 @@ import { StyleSheet, View, TextInput, Button, Text,TouchableOpacity } from "reac
 import React from "react";
 import { PHP_IP } from "../config/globalVar.js";
 import axios from "axios";
+import {AsyncStorage} from "@react-native-async-storage/async-storage";
 
 export default class SeePost extends React.Component {
   constructor(props) {
@@ -19,14 +20,10 @@ export default class SeePost extends React.Component {
   async deletePost(postID) {
     const req = await axios.delete("http://" + PHP_IP + "/post/" + postID)
     const res = await req.data;
-    console.log(res)
-    this.props.navigation.navigate("Home");
-    this.props.navigation.navigate("SeePost");
+    this.getAllPosts();
   }
-  async goToComments(idPost){
-    this.props.navigation.navigate("ProfilPost",{
-      idPost: idPost
-    })
+  async goToComments(postID){
+    this.props.navigation.navigate("ProfilPost",{"postID":postID});
   }
   render() {
     return (

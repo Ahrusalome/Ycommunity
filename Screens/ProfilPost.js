@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput, Button,Text } from "react-native";
+import { StyleSheet, View, TextInput, Button,Text,ScrollView } from "react-native";
 import React from "react";
 import { PHP_IP } from "../config/globalVar.js";
 import { AsyncStorage } from "@react-native-async-storage/async-storage";
@@ -25,6 +25,7 @@ export default class Post extends React.Component {
       };
       const req = await axios.post(apiURL,Data);
       const res = await req.data
+      await this.getComment();
     }
   };
     getPostInfo = async()=>{
@@ -47,6 +48,8 @@ export default class Post extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <ScrollView>
+
         <View style={styles.container}>
         {this.state.postInfo.map((post) => {
           return (
@@ -57,26 +60,26 @@ export default class Post extends React.Component {
             </View >
             );
             })}
+            <TextInput
+          placeholder={"Write your comment here"}
+          placeholderTextColor={"black"}
+          style={styles.inputText}
+          onChangeText={(content) => this.setState({ content })}
+        />
+          <Button title={"Submit comment"} onPress={this.createComment} />
             {this.state.commentPost.map((comment)=>{
               return (
-                <View  key={comment.id}>
+                <View  style={styles.comment} key={comment.id}>
                   <Text>From: {comment.username}</Text>
                   <Text>{comment.message}</Text>
-
                 </View>
               )
 
 
 
             })}
-        </View>
-        <TextInput
-          placeholder={"Write your comment here"}
-          placeholderTextColor={"black"}
-          style={styles.inputText}
-          onChangeText={(content) => this.setState({ content })}
-        />
-        <Button title={"Submit comment"} onPress={this.createComment} />
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -88,10 +91,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 20,
     marginTop: 10,
+    paddingBottom:0,
   },
   inputText: {
     borderBottomWidth: 1,
     borderBottomColor: "black",
-    marginTop: 30,
+  },
+  comment: {
+    marginTop:25,
   },
 });

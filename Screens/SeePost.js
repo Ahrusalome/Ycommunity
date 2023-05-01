@@ -1,34 +1,77 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, TextInput, Button, Text,TouchableOpacity } from "react-native";
+import { StyleSheet, View, TextInput, Button, Text,TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
 import { PHP_IP } from "../config/globalVar.js";
 import axios from "axios";
-import {AsyncStorage} from "@react-native-async-storage/async-storage";
+import SelectDropdown from 'react-native-select-dropdown'
+
 
 export default class SeePost extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { dataReceive: [] };
-    this.getAllPosts();
+    this.state = { posts: [],categories: [],categorySelected:"",havePosts: true};
   }
+
   async getAllPosts() {
     const apiURL = "http://" + PHP_IP + "/post";
     const req = await axios.get(apiURL)
     const res = await req.data
-    this.setState({dataReceive: await res})
+    if(res.length>0)this.setState({havePosts: true})
+    else this.setState({havePosts: false})
+    this.setState({posts: await res})
   }
+
   async deletePost(postID) {
     const req = await axios.delete("http://" + PHP_IP + "/post/" + postID)
     const res = await req.data;
     this.getAllPosts();
   }
+
   async goToComments(postID){
     this.props.navigation.navigate("ProfilPost",{"postID":postID});
   }
+
+  async goToCreationPost(){
+    this.props.navigation.navigate("Post");
+  }
+
+  async getAllCategories (){
+    const apiURL = "http://"+PHP_IP+"/category";
+    const req = await axios.get(apiURL)
+    const res = await req.data
+    res.push({id: 0,name: "No filter"})
+    this.setState({categories: res});
+  }
+
+  async applyFilter(){
+    let urlToFetch;
+    if(this.state.categorySelected!=0)urlToFetch = "http://"+PHP_IP+"/post/category/"+this.state.categorySelected
+    else urlToFetch = "http://"+PHP_IP+"/post"
+
+    const req = await axios.get(urlToFetch)
+    const res = await req.data
+    if(res.length>0)this.setState({havePosts: true})
+    else this.setState({havePosts: false})
+    this.setState({posts: await res})
+
+  }
+
+  async componentDidMount(){
+    await this.getAllCategories();
+    await this.getAllPosts();
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        {this.state.dataReceive.map((post) => {
+        <SelectDropdown
+        data={this.state.categories.map(category=> category.name)}
+          onSelect={(selectItem,index)=>{
+            this.setState({categorySelected: this.state.categories[index].id})
+            this.applyFilter();
+          }}>
+        </SelectDropdown>
+        {this.state.posts.length>0 && 
+        this.state.posts.map((post) => {
           return (
             <TouchableOpacity  style={styles.container} key={post.id} onPress={()=>this.goToComments(post.id)}>
               <Text>Username: {post.username}</Text>
@@ -40,7 +83,14 @@ export default class SeePost extends React.Component {
               />
             </TouchableOpacity >
           );
-        })}
+        })
+        }
+        {this.state.posts.length<1 && 
+          <View>
+          <Text>They are no post in this category yet</Text>
+          <Button title={"Create a new post"} onPress={()=>this.goToCreationPost()} />
+          </View>
+        }
       </View>
     );
   }

@@ -83,13 +83,17 @@ export default class SeePost extends React.Component {
       "postID": postID,
     })
     const res = await req.data
+    const reqUpdatePostLike = await axios.put("http://"+PHP_IP+"/post/addLike/"+postID)
+    const resUpdate = await reqUpdatePostLike.data
+    console.log(resUpdate)
     await this.getAllPosts();
   }
   async unLike(postID){
-    console.log("http://"+PHP_IP+"/like/"+this.state.userID+"/"+postID)
+    console.log("http://"+PHP_IP+"/post/removeLike/"+postID)
     const req = await axios.delete("http://"+PHP_IP+"/like/"+this.state.userID+"/"+postID)
     const res = await req.data
-    console.log(res)
+    const reqUpdatePostLike = await axios.put("http://"+PHP_IP+"/post/removeLike/"+postID)
+    const resUpdate = await reqUpdatePostLike.data
     await this.getAllPosts();
   }
 

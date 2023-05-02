@@ -8,16 +8,36 @@ import SelectDropdown from 'react-native-select-dropdown'
 export default class SeePost extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { posts: [],categories: [],categorySelected:"",havePosts: true};
+    this.state = { posts: [],categories: [],categorySelected:"",havePosts: true,userID:1};
   }
 
   async getAllPosts() {
+    await this.getAllLikes();
     const apiURL = "http://" + PHP_IP + "/post";
     const req = await axios.get(apiURL)
     const res = await req.data
     if(res.length>0)this.setState({havePosts: true})
     else this.setState({havePosts: false})
+    // adding a field in these object for the like button
+    res.forEach(post => {
+      post.isLiked= false
+    });
     this.setState({posts: await res})
+    await this.getAllLikes();
+  }
+  async getAllLikes(){
+    const req = await axios.get("http://"+PHP_IP+"/like/user/"+this.state.userID)
+    const res = await req.data
+    const subPost = []
+    this.state.posts.forEach((post,index) => {
+      subPost.push(post)
+      if(res.length>0 && Array.isArray(res)){
+        res.forEach(like => {
+          if(like.postID==post.id)subPost[index].isLiked=true;
+        });
+      }
+      this.setState({posts: subPost})
+    });
   }
 
   async deletePost(postID) {
@@ -43,6 +63,8 @@ export default class SeePost extends React.Component {
   }
 
   async applyFilter(){
+
+
     let urlToFetch;
     if(this.state.categorySelected!=0)urlToFetch = "http://"+PHP_IP+"/post/category/"+this.state.categorySelected
     else urlToFetch = "http://"+PHP_IP+"/post"
@@ -53,6 +75,22 @@ export default class SeePost extends React.Component {
     else this.setState({havePosts: false})
     this.setState({posts: await res})
 
+  }
+
+  async likePost(postID){
+    const req = await axios.post("http://"+PHP_IP+"/like",{
+      "userID": this.state.userID,
+      "postID": postID,
+    })
+    const res = await req.data
+    await this.getAllPosts();
+  }
+  async unLike(postID){
+    console.log("http://"+PHP_IP+"/like/"+this.state.userID+"/"+postID)
+    const req = await axios.delete("http://"+PHP_IP+"/like/"+this.state.userID+"/"+postID)
+    const res = await req.data
+    console.log(res)
+    await this.getAllPosts();
   }
 
   async componentDidMount(){
@@ -77,6 +115,21 @@ export default class SeePost extends React.Component {
               <Text>Username: {post.username}</Text>
               <Text>Message: {post.message}</Text>
               <Text>Likes: {post.likes}</Text>
+
+              {!post.isLiked?
+              <Button
+              title={"Like"}
+              onPress={() => this.likePost(post.id)}
+            /> : 
+            <Button
+              title={"UnLike"}
+              onPress={() => this.unLike(post.id)}
+            />
+              }
+
+
+
+
               <Button
                 title={"Delete Post"}
                 onPress={() => this.deletePost(post.id)}

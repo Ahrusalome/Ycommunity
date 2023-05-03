@@ -64,11 +64,9 @@ export default class SeePost extends React.Component {
     this.setState({categories: res});
   }
 
-  async applyFilter(){
-
-
+  async applyFilter(selectItemID){
     let urlToFetch;
-    if(this.state.categorySelected!=0)urlToFetch = "http://"+PHP_IP+"/post/category/"+this.state.categorySelected
+    if(this.state.categories[selectItemID].id!="0")urlToFetch = "http://"+PHP_IP+"/post/category/"+this.state.categories[selectItemID].id
     else urlToFetch = "http://"+PHP_IP+"/post"
 
     const req = await axios.get(urlToFetch)
@@ -87,11 +85,9 @@ export default class SeePost extends React.Component {
     const res = await req.data
     const reqUpdatePostLike = await axios.put("http://"+PHP_IP+"/post/addLike/"+postID)
     const resUpdate = await reqUpdatePostLike.data
-    console.log(resUpdate)
     await this.getAllPosts();
   }
   async unLike(postID){
-    console.log("http://"+PHP_IP+"/post/removeLike/"+postID)
     const req = await axios.delete("http://"+PHP_IP+"/like/"+this.state.userID+"/"+postID)
     const res = await req.data
     const reqUpdatePostLike = await axios.put("http://"+PHP_IP+"/post/removeLike/"+postID)
@@ -100,7 +96,6 @@ export default class SeePost extends React.Component {
   }
 
   async componentDidMount(){
-    console.log(this.props.navigation)
     await this.getAllCategories();
     await this.getAllPosts();
   }
@@ -118,7 +113,7 @@ export default class SeePost extends React.Component {
         data={this.state.categories.map(category=> category.name)}
           onSelect={(selectItem,index)=>{
             this.setState({categorySelected: this.state.categories[index].id})
-            this.applyFilter();
+            this.applyFilter(index);
           }}>
         </SelectDropdown>
         {this.state.posts.length>0 && 

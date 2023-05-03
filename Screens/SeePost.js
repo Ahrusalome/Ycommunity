@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput, Button, Text,TouchableOpacity, ScrollView } from "react-native";
+import { StyleSheet, View, TextInput, Button, RefreshControl, Text,TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
 import { PHP_IP } from "../config/globalVar.js";
 import axios from "axios";
@@ -8,10 +8,11 @@ import SelectDropdown from 'react-native-select-dropdown'
 export default class SeePost extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { posts: [],categories: [],categorySelected:"",havePosts: true,userID:1};
+    this.state = { posts: [],categories: [],categorySelected:"",havePosts: true,userID:1,refresh: false};
   }
 
   async getAllPosts() {
+    this.setState({refresh: true})
     await this.getAllLikes();
     const apiURL = "http://" + PHP_IP + "/post";
     const req = await axios.get(apiURL)
@@ -24,6 +25,7 @@ export default class SeePost extends React.Component {
     });
     this.setState({posts: await res})
     await this.getAllLikes();
+    this.setState({refresh : false})
   }
   async getAllLikes(){
     const req = await axios.get("http://"+PHP_IP+"/like/user/"+this.state.userID)
@@ -98,13 +100,20 @@ export default class SeePost extends React.Component {
   }
 
   async componentDidMount(){
+    console.log(this.props.navigation)
     await this.getAllCategories();
     await this.getAllPosts();
   }
-
+  async enableRefresh(){
+    return this.state.refresh
+  }
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={this.state.refresh} onRefresh={async()=>await this.getAllPosts()}/>
+      }
+      >
         <SelectDropdown
         data={this.state.categories.map(category=> category.name)}
           onSelect={(selectItem,index)=>{
@@ -148,7 +157,7 @@ export default class SeePost extends React.Component {
           <Button title={"Create a new post"} onPress={()=>this.goToCreationPost()} />
           </View>
         }
-      </View>
+      </ScrollView>
     );
   }
 }

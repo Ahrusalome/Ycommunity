@@ -30,9 +30,7 @@ export default class NavBar extends React.Component {
 
     Home = () => {
         return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>this page is Home</Text>
-        </View>
+        <SeePost />
         );
     }
 
@@ -55,7 +53,7 @@ export default class NavBar extends React.Component {
             return (
               <NavigationContainer>
                   <this.Tab.Navigator labeled={false} barStyle={{ backgroundColor: '#00fa43'}} activeColor="#ffffff">
-                      <this.Tab.Screen name="Home" component={SeePost} 
+                      <this.Tab.Screen name="Home" component={SeePost}  
                           options={{ 
                               tabBarIcon: ({ color, size }) => (
                                   <MaterialCommunityIcons name="home" color={color} size={26} />

@@ -25,7 +25,8 @@ export default class Post extends React.Component {
       };
       const req = await axios.post(apiURL,Data);
       const res = await req.data
-      this.props.navigation.navigate("SeePost");
+      console.log(res)
+      // this.props.navigation.navigate("SeePost");
     }
   };
   getAllCategories = async()=>{
